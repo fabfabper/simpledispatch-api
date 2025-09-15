@@ -2,14 +2,32 @@ public static class UnitsController
 {
     public static void MapUnitsController(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/units", () =>
+        endpoints.MapGet("/units", async (HttpClient httpClient, IConfiguration configuration) =>
         {
-            var units = new[]
+            try
             {
-                new { id = "A1", statusId = 1, name = "Ambulance 1", position = new[] { 47.3744, 8.5456 }, type = "ambulance" },
-                new { id = "F1", statusId = 2, name = "Fire Truck 1", position = new[] { 47.3700, 8.5300 }, type = "firetruck" }
-            };
-            return units;
+                var endpoint = configuration["UnitServiceBaseUrl"];
+                if (string.IsNullOrEmpty(endpoint))
+                {
+                    return Results.Problem("UnitServiceBaseUrl configuration is missing");
+                }
+
+                endpoint = endpoint.TrimEnd('/') + "/units";
+                var response = await httpClient.GetAsync(endpoint);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    return Results.Content(jsonContent, "application/json");
+                }
+                else
+                {
+                    return Results.Problem($"Failed to fetch units: {response.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem($"Error fetching units: {ex.Message}");
+            }
         })
         .WithName("GetUnits");
     }
