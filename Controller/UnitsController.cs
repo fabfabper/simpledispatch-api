@@ -11,7 +11,7 @@ public static class UnitsController
         {
             try
             {
-                var unitsEndpoint = configuration["UnitServiceBaseUrl"];
+                var unitsEndpoint = $"{configuration["UnitServiceBaseUrl"]}/units";
                 if (string.IsNullOrEmpty(unitsEndpoint))
                 {
                     return Results.Problem("UnitServiceBaseUrl configuration is missing");
@@ -42,12 +42,14 @@ public static class UnitsController
                 var rabbitHost = configuration["RabbitMq:HostName"] ?? "localhost";
                 var queueName = configuration["RabbitMq:UnitsQueue"] ?? "units";
                 var command = UnitCommandConverter.ConvertToCommand(updatedUnit, UnitCommandType.UpdateUnit);
-                var producer = new MessageProducer<UnitCommand>(rabbitHost, queueName);
+                var producer = new MessageProducer<UnitCommand>(rabbitHost, queueName, configuration["RabbitMq:Username"], configuration["RabbitMq:Password"]);
                 producer.Publish(command);
+                Console.WriteLine($"Published update command for unit {id}");
                 return Results.Accepted();
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 return Results.Problem($"Error updating unit: {ex.Message}");
             }
         })
