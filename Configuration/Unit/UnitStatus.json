@@ -1,0 +1,27 @@
+[
+  {
+    "id": 0,
+    "label": "Available",
+    "color": "#22c55e"
+  },
+  {
+    "id": 1,
+    "label": "Busy",
+    "color": "#facc15"
+  },
+  {
+    "id": 2,
+    "label": "Unavailable",
+    "color": "#ef4444"
+  },
+  {
+    "id": 3,
+    "label": "In Transit",
+    "color": "#3b82f6"
+  },
+  {
+    "id": 4,
+    "label": "On Standby",
+    "color": "#a3a3a3"
+  }
+]

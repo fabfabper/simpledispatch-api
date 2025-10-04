@@ -1,0 +1,27 @@
+[
+  {
+    "id": 0,
+    "label": "Fire",
+    "icon": "FaFire"
+  },
+  {
+    "id": 1,
+    "label": "Accident",
+    "icon": "FaCarCrash"
+  },
+  {
+    "id": 2,
+    "label": "Ambulance",
+    "icon": "FaAmbulance"
+  },
+  {
+    "id": 3,
+    "label": "Firetruck",
+    "icon": "FaTruck"
+  },
+  {
+    "id": 4,
+    "label": "PoliceCar",
+    "icon": "FaCar"
+  }
+]

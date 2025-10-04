@@ -1,3 +1,5 @@
+using SimpleDispatch.Controllers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -31,6 +33,8 @@ var api = app.MapGroup("/api");
 // Register endpoints from separate classes
 UnitsController.MapUnitsController(api);
 EventsController.MapEventsController(api);
+ConfigurationsController.MapConfigurationsController(api);
+TranslationsController.MapTranslationsController(api);
 
 app.MapGet("/health", () => Results.Ok(new { status = "Healthy" }));
 
